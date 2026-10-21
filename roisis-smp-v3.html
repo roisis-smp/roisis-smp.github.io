@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Roisis SMP – Duels & Survival</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0b1020; --dusk:#17223f; --mist:#e6edf8; --muted:#97a6c2;
+  --ember:#ff8a4c; --moss:#7fd18b; --line:rgba(230,237,248,.12); --glass:rgba(230,237,248,.05);
+  --display:"Unbounded","Segoe UI",system-ui,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{height:100%;color-scheme:dark;scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--night);color:var(--mist);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);margin:0;font-weight:700;line-height:1.08}
+p{margin:0}
+:focus-visible{outline:3px solid var(--ember);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem)}
+
+/* Hero */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;text-align:center;overflow:hidden;
+  background:
+   radial-gradient(1.5px 1.5px at 12% 18%,#fff9 50%,transparent 51%),
+   radial-gradient(1.5px 1.5px at 27% 38%,#fff7 50%,transparent 51%),
+   radial-gradient(2px 2px at 41% 12%,#fffb 50%,transparent 51%),
+   radial-gradient(1.5px 1.5px at 58% 28%,#fff8 50%,transparent 51%),
+   radial-gradient(2px 2px at 73% 15%,#fffa 50%,transparent 51%),
+   radial-gradient(1.5px 1.5px at 86% 34%,#fff7 50%,transparent 51%),
+   radial-gradient(1.5px 1.5px at 94% 10%,#fff9 50%,transparent 51%),
+   linear-gradient(180deg,#0b1020 0%,#14203d 62%,#2a2f4d 100%);}
+.sun{position:absolute;left:50%;bottom:-14rem;width:min(60rem,140vw);aspect-ratio:1;transform:translateX(-50%);
+  background:radial-gradient(circle,rgba(255,138,76,.5),rgba(255,138,76,0) 62%);pointer-events:none}
+.ridge{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:clamp(9rem,26vw,22rem);display:block}
+.hero .wrap{position:relative;z-index:2;padding-top:4rem;padding-bottom:clamp(8rem,22vw,16rem)}
+.hero h1{font-size:clamp(2.6rem,9.5vw,7.25rem);letter-spacing:-.04em}
+.hero .sub{margin:1.4rem auto 0;max-width:36ch;font-size:clamp(1.05rem,2.3vw,1.4rem);color:var(--muted)}
+.ip{margin:2.2rem auto 0;display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .45rem .45rem 1.5rem;
+  border:1px solid var(--line);border-radius:999px;background:rgba(11,16,32,.55);backdrop-filter:blur(8px);max-width:100%}
+.ip code{font:700 clamp(1rem,3vw,1.3rem) var(--display);letter-spacing:-.01em;overflow-wrap:anywhere}
+.ip button{border:0;border-radius:999px;background:var(--ember);color:#1a0e06;font:700 1rem var(--body);padding:.85rem 1.5rem;cursor:pointer;transition:transform .15s,background .15s}
+.ip button:hover{background:#ff9d68}
+.ip button:active{transform:scale(.97)}
+.hero .more{display:block;margin-top:1.4rem;color:var(--muted);text-decoration:none;font-weight:500}
+.hero .more:hover{color:var(--mist)}
+
+/* Modes */
+section.block{padding:clamp(3.5rem,8vw,6.5rem) 0}
+.head{max-width:30rem;margin-bottom:2.5rem}
+.head h2{font-size:clamp(1.8rem,4.2vw,2.8rem);letter-spacing:-.025em}
+.head p{margin-top:.8rem;color:var(--muted)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.card{position:relative;border:1px solid var(--line);border-radius:22px;padding:clamp(1.6rem,3.5vw,2.6rem);background:var(--glass);overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+.card.d{--c:var(--ember)}.card.s{--c:var(--moss)}
+.card svg{width:2.6rem;height:2.6rem;stroke:var(--c);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:clamp(1.6rem,3.4vw,2.2rem);margin:1.1rem 0 .6rem}
+.card p{color:var(--muted)}
+.card ul{list-style:none;margin:1.5rem 0 0;padding:0}
+.card li{display:flex;gap:.75rem;padding:.7rem 0;border-top:1px solid var(--line)}
+.card li::before{content:"";flex:none;width:.5rem;height:.5rem;margin-top:.62rem;border-radius:50%;background:var(--c)}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;counter-reset:s}
+.steps li{counter-increment:s;padding:1.6rem;border-radius:18px;background:var(--glass);border:1px solid var(--line)}
+.steps li::before{content:counter(s);display:block;font:700 2.6rem/1 var(--display);color:transparent;-webkit-text-stroke:1.5px var(--ember);margin-bottom:1rem}
+
+/* Rules */
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:1.15rem 0;font-weight:700}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 1.5rem/1 var(--display);color:var(--ember);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 0 1.2rem;color:var(--muted);max-width:56ch}
+
+footer{border-top:1px solid var(--line);padding:1.8rem 0 2.4rem;color:var(--muted);font-size:.92rem}
+
+@media (max-width:760px){
+  .cards,.steps{grid-template-columns:1fr}
+  .ip{flex-direction:column;border-radius:26px;padding:1rem;width:100%}
+  .ip button{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="sun" aria-hidden="true"></div>
+  <svg class="ridge" viewBox="0 0 1440 420" preserveAspectRatio="none" aria-hidden="true">
+    <polygon fill="#1d2a4d" points="0,220 120,170 240,200 380,120 520,180 640,140 780,210 900,150 1040,190 1180,110 1320,170 1440,140 1440,420 0,420"/>
+    <polygon fill="#111a35" points="0,290 140,240 280,270 420,210 560,260 700,230 860,290 1000,240 1160,280 1300,230 1440,270 1440,420 0,420"/>
+    <polygon fill="#0b1020" points="0,350 160,320 300,345 460,300 620,340 780,310 940,350 1100,315 1260,345 1440,320 1440,420 0,420"/>
+  </svg>
+  <div class="wrap">
+    <h1>Roisis SMP</h1>
+    <p class="sub">Duels when you want a fight. Survival when you want a home.</p>
+    <div class="ip">
+      <code id="addr">roisis.mcsh.gg</code>
+      <button id="copy" type="button" aria-label="Copy server address">Copy IP</button>
+    </div>
+    <a class="more" href="#modes">See the game modes</a>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="modes">
+    <div class="wrap">
+      <div class="head">
+        <h2>Two ways to play</h2>
+        <p>Same server, same lobby. Switch whenever you like.</p>
+      </div>
+      <div class="cards">
+        <article class="card d">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 6l14 14M38 6L24 20M20 24L8 36m-2 6l8-2m-8 2l2-8M28 24l12 12m2 6l-8-2m8 2l-2-8M22 22l4 4"/></svg>
+          <h3>Duels</h3>
+          <p>Get matched, pick up your kit, and settle it one on one.</p>
+          <ul>
+            <li>1v1 matches with matched kits</li>
+            <li>Queue straight from the lobby</li>
+            <li>Wins move you up the leaderboard</li>
+          </ul>
+        </article>
+        <article class="card s">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24L24 8l18 16M12 21v19h24V21M20 40V28h8v12"/></svg>
+          <h3>Survival</h3>
+          <p>A shared world to build in, trade in, and call your own.</p>
+          <ul>
+            <li>Claim land so your builds stay yours</li>
+            <li>Player-run trading and shops</li>
+            <li>A long-term world with no planned wipes</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><h2>Join in three steps</h2></div>
+      <ol class="steps">
+        <li>Open Minecraft and go to Multiplayer.</li>
+        <li>Choose Add Server and paste <strong>roisis.mcsh.gg</strong>.</li>
+        <li>Join, then pick Duels or Survival from the lobby.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap" style="max-width:48rem">
+      <div class="head"><h2>Server rules</h2></div>
+      <details open><summary>Play fair</summary><p>No cheating, x-ray, or unfair client mods. Report bugs instead of abusing them.</p></details>
+      <details><summary>Respect other players</summary><p>Keep chat friendly. No harassment, hate speech, or spam.</p></details>
+      <details><summary>Survival builds</summary><p>No griefing or stealing. Claim your land and respect other people's claims.</p></details>
+      <details><summary>Staff</summary><p>Staff decisions are final. If you disagree, talk to a staff member calmly.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Roisis SMP is not affiliated with Mojang or Microsoft.</div>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('copy'),addr=document.getElementById('addr');
+  function done(m){btn.textContent=m;setTimeout(function(){btn.textContent='Copy IP'},1800)}
+  function fallback(){
+    try{
+      var r=document.createRange();r.selectNodeContents(addr);
+      var s=window.getSelection();s.removeAllRanges();s.addRange(r);
+      done(document.execCommand('copy')?'Copied':'Select it');
+    }catch(e){done('Select it')}
+  }
+  btn.addEventListener('click',function(){
+    try{navigator.clipboard.writeText(addr.textContent).then(function(){done('Copied')},fallback)}
+    catch(e){fallback()}
+  });
+})();
+</script>
+</body>
+</html>
